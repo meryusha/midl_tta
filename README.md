@@ -5,9 +5,9 @@
 
 
     You should have the following folders inside of your working repo:
-    - EPIC_shards
-    - EPIC_sounds_shards
-    - checkpoints
+    - EPIC_shards [[link to download]](https://drive.google.com/file/d/1vER03j1dBvLTEzMRTlvf_dRXqYTJFSvd/view?usp=sharing)
+    - EPIC_sounds_shards [[link to download]](https://drive.google.com/file/d/1qpBX8xhwXSC-E00cKLIlJFc-Eg3rPD3o/view?usp=sharing)
+    - checkpoints [[link to download]](https://drive.google.com/file/d/1XP8JgzjnE2thgqYE61IM5AnNwsXIKCmh/view?usp=sharing)
 
     NOTE: if you don't want to download the data for now, you can still test the code by only downloading **checkpoints** folder. It contains all prediction files so you can just run the evaluation code on them. 
 
@@ -17,18 +17,19 @@
     
      - You will need to dowload EPIC-KITCHENS and EPIC-SOUNDS datasets
 
-    - For doing that, we recommend using the official epic-kitchens download script from here https://github.com/epic-kitchens/epic-kitchens-download-scripts
+    - For doing that, we recommend using the official epic-kitchens download script from [here](https://github.com/epic-kitchens/epic-kitchens-download-scripts)
 
-    - You can find the annotations for Epic-Kitchens here 
+    - You can find the annotations for EPIC-KITCHENS [here](https://github.com/epic-kitchens/epic-kitchens-100-annotations)
 
-    - And the annotations for Epic-Sounds here https://github.com/epic-kitchens/epic-sounds-annotations
+    - And the annotations for EPIC-SOUNDS [here](https://github.com/epic-kitchens/epic-sounds-annotations)
 
     b. Video pre-processing: trimming and sharding
 
-    - Keep in mind that Epic-Kitchens and Epic-Sounds videos are long untrimmed videos. We trim those videos into short clips, according to the annotated segments. You can refer to the following scripts to trim and shard the videos. To trim use : 
+    - Keep in mind that EPIC-KITCHENS and EPIC-SOUNDS videos are long untrimmed videos. We trim those videos into short clips, according to the annotated segments. You can refer to the following scripts to trim and shard the videos. To trim use : 
 
-        - development_scripts/trimming/epic/trim_epic_sound.py # to trim Epic-Sounds videos
-        - development_scripts/trimming/epic/trim_epic.py  # to trim Epic-Kitchens videos
+        - development_scripts/trimming/epic/trim_epic.py  # to trim EPIC-KITCHENS videos
+        - development_scripts/trimming/epic/trim_epic_sound.py # to trim EPIC-SOUNDS videos
+
 
 
 2. **Environment**
