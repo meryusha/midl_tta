@@ -70,8 +70,8 @@ bash scripts/inference/tta_epic/tta_inference_epic_tta_baselines.sh
 ```
 
 ### **Modifications**
-- Update the **`METHOD`** variable to select the TTA method.
-- Update the **`PROP`** variable to set the missing ratio.
+- Update the **`METHOD`** variable to select the TTA method (`shot-im`, `tent`, or `eta`).
+- Update the **`PROP`** variable to set the missing ratio (`0.0`, `0.25`, `0.5`, `0.75`, or `1.0`).
 - **Do not update** the **`SEED`** variable.
 
 ---
