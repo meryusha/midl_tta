@@ -62,4 +62,5 @@
     You don't need to update the SEED varibale. 
     Currently, we included the prediction files, so you don't actually need to run the inference to see the results. However, if you want to re-run the TTA process, please delete or rename the method folder, e.g. if you want to run the MiDL on EPIC-KITCHENS, delete/rename the checkpoints/EPIC-KITCHENS/midl folder 
     Then, run
+    
         bash scripts/inference/tta_sounds/tta_inference_epic_sound.sh
