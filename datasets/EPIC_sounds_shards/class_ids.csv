@@ -1,0 +1,45 @@
+id,key
+6,plastic-only collision
+3,open / close
+7,footstep
+1,scrub / scrape / scour / wipe
+4,rustle
+18,paper-only collision
+0,metal-only collision
+5,water
+11,metal / plastic collision
+2,cut / chop
+8,stir / mix / whisk
+22,plastic / paper collision
+10,metal / wood collision
+9,slide object
+34,ceramic / wood collision
+19,pour
+13,background
+12,metal / ceramic collision
+17,metal / glass collision
+14,ceramic-only collision
+33,kettle / mixer / appliance
+29,sizzling / boiling
+16,click
+23,metal / paper collision
+20,glass-only collision
+21,wood-only collision
+42,zip
+25,metal / cloth collision
+39,wood / glass collision
+35,kneading
+27,plastic / wood collision
+26,plastic / ceramic collision
+38,glass / marble collision
+15,beep
+37,ceramic / marble collision
+30,ceramic / glass collision
+32,plastic / glass collision
+31,plastic / marble collision
+24,human
+36,cloth-only collision
+40,hoover / fan
+28,metal / marble collision
+43,drink / eat
+41,spray
