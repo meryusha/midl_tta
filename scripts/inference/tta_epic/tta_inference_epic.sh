@@ -3,7 +3,7 @@ lambda_mi=3.0
 lambda_kl=3.0
 tta_learning_rate=0.00025
 PROP=0.25
-METHOD=midl #tent, eta, midl
+METHOD=midl #tent, eta, midl, shot-im
 seed=42
 
 for i in "$@"

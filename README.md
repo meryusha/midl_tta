@@ -1,75 +1,103 @@
-1. **Data**
-    We provide the sharded videos and pre-trained checkpoints for you. 
+# Instructions for Running TTA Inference
 
-    Please find the link with to dowloaded the sharded files. Please, unzip the folders and place them in this working repo. 
+## 1. **Data**
 
+We provide the sharded videos and pre-trained checkpoints for you.
 
-    You should have the following folders inside of your working repo:
-    - EPIC_shards [[link to download]](https://drive.google.com/file/d/1vER03j1dBvLTEzMRTlvf_dRXqYTJFSvd/view?usp=sharing)
-    - EPIC_sounds_shards [[link to download]](https://drive.google.com/file/d/1qpBX8xhwXSC-E00cKLIlJFc-Eg3rPD3o/view?usp=sharing)
-    - checkpoints [[link to download]](https://drive.google.com/file/d/1XP8JgzjnE2thgqYE61IM5AnNwsXIKCmh/view?usp=sharing)
+### **Steps to Prepare the Data**
+- Download the necessary files using the links below.
+- Unzip the folders and place them in this working repository.
 
-    NOTE: if you don't want to download the data for now, you can still test the code by only downloading **checkpoints** folder. It contains all prediction files so you can just run the evaluation code on them. 
+After setup, your working repository should include the following folders:
+- **EPIC_shards** [[Download Link]](https://drive.google.com/file/d/1vER03j1dBvLTEzMRTlvf_dRXqYTJFSvd/view?usp=sharing)  
+- **EPIC_sounds_shards** [[Download Link]](https://drive.google.com/file/d/1qpBX8xhwXSC-E00cKLIlJFc-Eg3rPD3o/view?usp=sharing)  
+- **checkpoints** [[Download Link]](https://drive.google.com/file/d/1XP8JgzjnE2thgqYE61IM5AnNwsXIKCmh/view?usp=sharing)  
 
-    Below we clarify on how we obtained the videos in case you want to repeat this process: 
+**Note:**  
+If you prefer not to download the full dataset, you can still test the code by downloading only the **checkpoints** folder. It contains all prediction files, enabling you to run evaluation code directly on them.
 
-    a. Downloading the videos and annotations
-    
-     - You will need to dowload EPIC-KITCHENS and EPIC-SOUNDS datasets
+---
 
-    - For doing that, we recommend using the official epic-kitchens download script from [here](https://github.com/epic-kitchens/epic-kitchens-download-scripts)
+### **How We Prepared the Videos**
+You can follow these steps if you wish to reproduce the process:
 
-    - You can find the annotations for EPIC-KITCHENS [here](https://github.com/epic-kitchens/epic-kitchens-100-annotations)
+#### **a. Downloading Videos and Annotations**
+- Download the **EPIC-KITCHENS** and **EPIC-SOUNDS** datasets:
+  - Use the official [EPIC-KITCHENS download script](https://github.com/epic-kitchens/epic-kitchens-download-scripts).
+- Annotations:
+  - [EPIC-KITCHENS Annotations](https://github.com/epic-kitchens/epic-kitchens-100-annotations)
+  - [EPIC-SOUNDS Annotations](https://github.com/epic-kitchens/epic-sounds-annotations)
 
-    - And the annotations for EPIC-SOUNDS [here](https://github.com/epic-kitchens/epic-sounds-annotations)
+#### **b. Video Pre-processing: Trimming and Sharding**
+The datasets include long, untrimmed videos. Use the following scripts to trim and shard the videos into shorter clips based on annotated segments:
 
-    b. Video pre-processing: trimming and sharding
+- Trimming:
+  - `development_scripts/trimming/epic/trim_epic.py` (for EPIC-KITCHENS)
+  - `development_scripts/trimming/epic/trim_epic_sound.py` (for EPIC-SOUNDS)
 
-    - Keep in mind that EPIC-KITCHENS and EPIC-SOUNDS videos are long untrimmed videos. We trim those videos into short clips, according to the annotated segments. You can refer to the following scripts to trim and shard the videos. To trim use : 
+---
 
-        - development_scripts/trimming/epic/trim_epic.py  # to trim EPIC-KITCHENS videos
-        - development_scripts/trimming/epic/trim_epic_sound.py # to trim EPIC-SOUNDS videos
+## 2. **Environment Setup**
 
+1. Install the environment using the provided YAML file:
+   ```bash
+   conda env create -f environment.yml
+   ```
+2. Activate the environment:
+   ```bash
+   conda activate midl_tta
+   ```
 
+---
 
-2. **Environment**
-    Please install the env from the yaml file as
-    conda env create -f environment.yml
-    
-    Activate your environemnts once it has been installed
-    Should be something like:
-        conda activate midl_tta
+## 3. **Running TTA Inference with Baseline Methods**
 
-3. **Running the TTA inference with the baseline TTA methods: TENT, SHOT, ETA:**
+### **Supported Baseline Methods**
+- TENT
+- SHOT
+- ETA
 
-    To run the inference for EPIC-SOUDNS, use the following command:
+#### **EPIC-SOUNDS**
+Run the inference for EPIC-SOUNDS with the following command:
+```bash
+bash scripts/inference/tta_sounds/tta_inference_epic_sound_baselines.sh
+```
 
-        bash scripts/inference/tta_sounds/tta_inference_epic_sound_baselines.sh
+#### **EPIC-KITCHENS**
+Run the inference for EPIC-KITCHENS with the following command:
+```bash
+bash scripts/inference/tta_epic/tta_inference_epic_tta_baselines.sh
+```
 
-    To run the inference for EPIC-SOUDNS, use the following command:
+### **Modifications**
+- Update the **`METHOD`** variable to select the TTA method.
+- Update the **`PROP`** variable to set the missing ratio.
+- **Do not update** the **`SEED`** variable.
 
-        bash scripts/inference/tta_epic/tta_inference_epic_tta_baselines.sh
+---
 
-    You can modify, which TTA method you want to  use by updating the METHOD variable.
+## 4. **Running TTA Inference with MiDL**
 
-    You can modify, which missing ratio you want to evaluate with by updatin the PROP variable.
+#### **EPIC-SOUNDS**
+Run the inference for EPIC-SOUNDS with the following command:
+```bash
+bash scripts/inference/tta_sounds/tta_inference_epic_sound.sh
+```
 
-    You don't need to update the SEED varibale. 
+#### **EPIC-KITCHENS**
+Run the inference for EPIC-KITCHENS with the following command:
+```bash
+bash scripts/inference/tta_epic/tta_inference_epic.sh
+```
 
-4. **Running th TTA inference with MiDL:**
+### **Modifications**
+- Update the **`METHOD`** variable to select the TTA method.
+- Update the **`PROP`** variable to set the missing ratio.
+- **Do not update** the **`SEED`** variable.
 
-    To run the inference for EPIC-SOUDNS, use the following command:
+**Note:**  
+We have included prediction files, so you don’t need to run inference to view results. If you wish to re-run the TTA process, **delete or rename the corresponding method folder** (e.g., for MiDL on EPIC-KITCHENS, delete or rename `checkpoints/EPIC-KITCHENS/midl`). Then re-run the appropriate script.
 
-        bash scripts/inference/tta_sounds/tta_inference_epic_sound.sh
+---
 
-    To run the inference for EPIC-SOUDNS, use the following command:
-
-        bash scripts/inference/tta_epic/tta_inference_epic.sh
-
-    You can modify, which TTA method you want to  use by updating the METHOD variable.
-    You can modify, which missing ratio you want to evaluate with by updatin the PROP variable.
-    You don't need to update the SEED varibale. 
-    Currently, we included the prediction files, so you don't actually need to run the inference to see the results. However, if you want to re-run the TTA process, please delete or rename the method folder, e.g. if you want to run the MiDL on EPIC-KITCHENS, delete/rename the checkpoints/EPIC-KITCHENS/midl folder 
-    Then, run
-
-        bash scripts/inference/tta_sounds/tta_inference_epic_sound.sh
+Let me know if any further enhancements are needed!

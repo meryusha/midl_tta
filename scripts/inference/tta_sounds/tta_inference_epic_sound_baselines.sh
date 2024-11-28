@@ -1,6 +1,6 @@
 tta_learning_rate=0.00025
 PROP=1.0
-METHOD=eta #tent, eta, midl
+METHOD=eta #tent, eta, midl, shot-im
 UPDATE_BN_ONLY=True
 seed=42
 
