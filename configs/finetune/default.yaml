@@ -1,0 +1,164 @@
+setup_id: finetune
+mode: train
+base_exp_dir: experiments_finetune
+
+TRAIN:
+  checkpoint_to_finetune: random
+  enabled: true
+  train_file: None
+  num_epochs: 10
+  batch_size_per_gpu: 8
+  num_nodes: 1
+  num_epochs_per_job: 10
+  effective_batch_size: None
+  # Parameters for the learning rate scheduler taken from https://github.com/facebookresearch/mae_st/blob/dc072aaaf640d06892e23a33b42223a994efe272/main_finetune.py
+  learning_rate: 0.0002
+  lr_warmup_epochs: 5
+  weight_decay: 0.05
+  layer_decay: 0.75
+  min_lr: 0.00001
+  # ========================
+  last_checkpoint_filename: last.ckpt
+  num_workers: 4
+  data_size: None 
+  epochs_per_job: 5
+  resume_version: f
+  linear_eval: true
+  visualize_every: 100
+  mixup:
+    enabled: false
+    mixup_alpha: 0.0
+    cutmix_alpha: 0.0
+    mixup_prob: 0.0
+    switch_prob: 0.0
+    label_smoothing: 0.0
+    cutmix_minmax: None
+  optimizer: adamw #adamw, sgd
+  grad_clip_val: 0.0 #0.0 means no clipping
+
+VALIDATION:
+  val_file: None
+  batch_size_per_gpu: 28
+  num_workers: 4
+  data_size: None
+  val_check_interval: 1 #epochs
+  visualize_every: 10
+  val_data_percentage: 1.0 # Portion on which to run validation at the end of each epoch
+
+INFERENCE:
+  predict_max: false # if using top-k evaluation, should be False
+  version: null # if null will run the last one
+  enabled: false
+  eval: true
+  target_clip_duration: 2
+  inference_file: None
+  batch_size_per_gpu: 1
+  checkpoint: checkpoints_finetune/
+  num_workers: 4
+  visualize_every: 100
+  thresh: 0.0
+  dataset_size: None
+  num_views: 1
+  num_spatial_crops: 3
+  load_train_config: true
+  type: regular #tta or regular
+  original_model_predictions: null
+  
+MODEL:
+  name: joint_vit
+  preprocessor:
+    video:
+      patch_size: 16
+      embed_dim: 768
+      in_chans: 3
+      num_frames: 16
+      t_patch_size: 2
+    audio:
+      patch_size: 16
+      embed_dim: 768
+  encoder: # ViT Base 16x16 patch size, 12 layers, 768 hidden dim, 12 heads
+           # ViT Large 16x16 patch size, 24 layers, 1024 hidden dim, 16 heads
+           # ViT Huge 32x32 patch size, 32 layers, 1280 hidden dim, 16 heads
+    backbone_joint: vit_base_patch16
+    backbone_vis: vit_base_patch16
+    backbone_audio: vit_base_patch16
+    joint: true # all tokens to the same encoder
+    shared: None
+    embed_dim: 768
+    depth: 12
+    num_heads: 12
+    mlp_ratio: 4
+    bottleneck_num: null
+    dropout: 0.3
+    drop_path_rate: 0.1
+    predict_from_all: false # getting predictions by averaging all tokens
+    fusion_layer: None
+    missing_modality_token: null # None, video, audio, both?
+    missing_from_mask_token: false
+    missing_freeze: false
+    random_init_bottle: false
+  head_variant: two_heads_per_modality
+  loss_variant: cross_entropy_multi_head_loss
+  num_classes: 
+    noun: 300
+    verb: 97
+  class_weights_for_loss:
+    noun: null
+    verb: null
+  single_class: false
+  checkpoint_load_multimodal:
+    mode: 'default' # 'default': matching the modalities of the pretrained endoder and the downstream.  'separate_to_joint': in preatrined has multimodal separate streams so load the specified one (video).  "joint_to_separate": copy the joint weights to each mutlimodal dosntream, 'imagenet': load from imagetnet pre-trained
+    load_modality: video
+
+
+DATA:
+  modalities: None
+  path_to_dataset: ./
+  input_clip_duration: 8
+  random_sample_clip: false
+  biased_sample_clip: false
+  metadata_file: None
+  id_to_label_file: None
+  filter_criteria: null # ['duration_sec', 'no_audio', 'has_audio']
+  video:
+    target_clip_duration: 2
+    video_input_fps: 30
+    video_output_fps: 8
+    inference_crop_size: 224
+    mask_missing_ratio: null #[0.0, 0.25, 1.0]
+    ratio_probs: null #[0.5, 0.25, 0.25] 
+    augmentations:
+      random_crop_size: 224
+      aug_type: default # default, randaug, augmix (slow!)
+      randaug:
+        magnitude: 3
+        num_layers: 3
+        probability: 0.5
+      augmix:
+        magnitud: 3
+        alpha: 1.0
+        width: 3
+        depth: -1
+      normalize:
+        mean: [0.4012, 0.3497, 0.3102] #epic-kitchens
+        std: [0.2250, 0.2149, 0.2135] #epic-kitchens
+  audio:
+    target_clip_duration: 8 
+    frequency: 48000
+    num_mel_bins: 128
+    output_spectogram_time: 800
+    frame_shift: 10
+    spectogram_padding : repeat # zero, repeat
+    pad_missing: false
+    add_missing: 0
+    mask_missing_ratio: null #[0.0, 0.25, 1.0]
+    ratio_probs: null #[0.5, 0.25, 0.25] 
+    augmentations:
+      aug_type: spec_augment #default, spec_augment
+      spec_augment:
+        freq_masking: 48
+        time_masking: 192
+      normalize:
+        mean: 0.0
+        std: 1.0
+

@@ -1,0 +1,12 @@
+base_exp_dir: /base
+ckpt_dir: checkpoints
+output_dir: outputs
+setup_id: audiovideo
+seed: 42
+precision: bf16 # bf16 for A100, 16 for v100, 32 if not mixed precision
+strategy: ddp # ddp or deepspeed_stage_1 (not really training yet), more options come from pytorch lightning but not tested
+
+wandb:
+  use_wandb: true
+  project: midl
+  entity: username

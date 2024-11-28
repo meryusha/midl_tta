@@ -1,0 +1,27 @@
+setup_id: finetune_vit-b_EPIC_sounds
+
+
+MODEL:
+  name: joint_vit-b
+  preprocessor:
+    video:
+      patch_size: 16
+      embed_dim: 768
+      in_chans: 3
+      num_frames: 16
+      t_patch_size: 2
+    audio:
+      patch_size: 16
+      embed_dim: 768
+  encoder: #ViT Base 16x16 patch size, 12 layers, 768 hidden dim, 12 heads
+  # ViT Large 16x16 patch size, 24 layers, 1024 hidden dim, 16 heads
+  #ViT Huge 32x32 patch size, 32 layers, 1280 hidden dim, 16 heads
+    backbone_joint: vit_base_patch16
+    backbone_vis: vit_base_patch16
+    backbone_audio: vit_base_patch16
+    joint: true # - > all tokens to the same encoder
+    shared: None
+    embed_dim: 768
+    depth: 12
+    num_heads: 12
+    mlp_ratio: 4

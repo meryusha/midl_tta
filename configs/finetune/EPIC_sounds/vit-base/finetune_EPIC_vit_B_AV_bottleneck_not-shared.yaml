@@ -1,0 +1,14 @@
+setup_id: bottleneck_not-shared_finetune_EPIC_sounds
+
+MODEL:
+  name: joint_vit_bottleneck
+  encoder:
+    bottleneck_num: 4
+    shared: false
+    joint: false
+    fusion_layer: 8
+    
+DATA:
+  modalities:
+    - video
+    - audio

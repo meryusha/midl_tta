@@ -1,0 +1,78 @@
+setup_id: finetune_EPIC_sounds
+
+TRAIN:
+  train_file: datasets/EPIC_sounds_shards/train.txt
+  data_size: 60054 #EPIC
+  checkpoint_to_finetune: random
+  enabled: true
+  num_epochs: 50
+  batch_size_per_gpu: 8
+  num_epochs_per_job: 50
+  effective_batch_size: None
+  # Parameters for the learning rate scheduler taken from https://github.com/facebookresearch/mae_st/blob/dc072aaaf640d06892e23a33b42223a994efe272/main_finetune.py
+  learning_rate: 0.0001
+  lr_warmup_epochs: 5
+  min_lr: 0.00004
+  num_workers: 12
+  # ========================
+  mixup:
+    label_smoothing: 0.3
+  optimizer: adamw #adamw, sgd
+  grad_clip_val: 0.0 #0.0 means no clipping
+
+VALIDATION:
+  val_file: datasets/EPIC_sounds_shards/val.txt
+  data_size: 8035 #EPIC
+  num_workers: 4
+
+INFERENCE:
+  inference_file: datasets/EPIC_sounds_shards/val.txt
+  data_size: 8035 #EPIC
+  num_views: 4
+  lambda_mi: 0.5
+  lambda_kl: 0.5
+  tta_lr: 0.00025
+  predictions_dir: null
+  save_ckpt_name: null
+  save_predictions: True
+  TTA_METHOD: 'midl' # choose from 'midl', shot, tent, eta
+  update_bn_only: True
+  ETA:
+    MARGIN_MULTIPLIER: 0.4
+  
+MODEL:
+  head_variant: one_head_per_modality
+  loss_variant: cross_entropy_loss
+  num_classes: 44
+  single_class: true
+
+DATA:
+  modalities:
+    - video
+    - audio
+  path_to_dataset: ./
+  input_clip_duration: None
+  random_sample_clip: true
+  metadata_file: datasets/EPIC_sounds_shards/EPIC_sounds_train_clips_singleview.csv
+  id_to_label_file: 'datasets/EPIC_sounds_shards/class_ids.csv'
+  video:
+    target_clip_duration: 2
+    input_fps: 60
+    output_fps: 8
+    augmentations:
+      random_crop_size: 224
+      aug_type: 'augmix' # choose from 'default', 'randaug', or 'augmix'
+      randaug:
+        magnitude: 5
+        num_layers: 3
+        probability: 0.5
+      augmix:
+        magnitud: 5
+        alpha: 1.0
+        width: 3
+        depth: 1
+  audio:
+    augmentations:
+      normalize:
+        mean: -6.3594
+        std: 4.57392226902641
