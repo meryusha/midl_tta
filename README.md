@@ -1,26 +1,19 @@
 # Official Implementation of "Test-Time Adaptation for Combating Missing Modalities in Egocentric Videos"
-This repository contains the official implementation of our paper, Test-Time Adaptation for Combating Missing Modalities in Egocentric Videos, accepted at ICLR 2025.
+This repository contains the official implementation of our paper, **[Test-Time Adaptation for Combating Missing Modalities in Egocentric Videos](https://openreview.net/pdf?id=1L52bHEL5d)**, accepted at ICLR 2025.
 
-📜 Paper Summary
-
+##📜 Paper Summary
 Understanding videos that contain multiple modalities is crucial, especially in egocentric videos, where combining various sensory inputs significantly improves tasks like action recognition and moment localization. However, real-world applications often face challenges with incomplete modalities due to privacy concerns, efficiency needs, or hardware issues. Current methods, while effective, often necessitate retraining the model entirely to handle missing modalities, making them computationally intensive, particularly with large training datasets. In this study, we propose a novel approach to address this issue at test time without requiring retraining. We frame the problem as a test-time adaptation task, where the model adjusts to the available unlabeled data at test time. Our method, MiDl~(Mutual information with self-Distillation), encourages the model to be insensitive to the specific modality source present during testing by minimizing the mutual information between the prediction and the available modality. Additionally, we incorporate self-distillation to maintain the model's original performance when both modalities are available. MiDl represents the first self-supervised, online solution for handling missing modalities exclusively at test time. Through experiments with various pretrained models and datasets, MiDl demonstrates substantial performance improvement without the need for retraining.
 
-🔧 Repository Overview
-
+## 🔧 Repository Overview
 This repo provides:
+- ✅ PyTorch implementation of our proposed TTA method
+- ✅ Evaluation scripts
+- ✅ Pretrained models and datasets
+- ✅ Reproducibility instructions
 
-✅ PyTorch implementation of our proposed TTA method
+## 🚀 Getting Started  
 
-✅ Evaluation scripts
-
-✅ Pretrained models and datasets
-
-✅ Reproducibility instructions
-
-
-
-# Instructions for Running TTA Inference
-
+Instructions for Running TTA Inference
 ## 1. **Data**
 
 We provide the sharded videos and pre-trained checkpoints for you.
